@@ -2,88 +2,89 @@
   // ═══════════════════════════════
   //  QUESTIONS
   // ═══════════════════════════════
-  var categories = [
-  {
-    name: "Computer Science",
-    icon: "🖥️",
-    questions: [
-      { question: "What does CPU stand for?", options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Core Processing Unit"], answer: 0, explanation: "CPU stands for Central Processing Unit — the brain of the computer." },
-      { question: "Which of these is NOT a programming language?", options: ["Python", "Java", "HTML", "Microsoft Word"], answer: 3, explanation: "Microsoft Word is a word processor, not a programming language." },
-      { question: "What does RAM stand for?", options: ["Read Access Memory", "Random Access Memory", "Rapid Action Memory", "Read And Modify"], answer: 1, explanation: "RAM stands for Random Access Memory — temporary storage for running programs." },
-      { question: "Which number system does a computer use internally?", options: ["Decimal", "Octal", "Binary", "Hexadecimal"], answer: 2, explanation: "Computers use the Binary number system (0s and 1s) internally." },
-      { question: "What is an algorithm?", options: ["A type of computer virus", "A step-by-step procedure to solve a problem", "A programming language", "A type of database"], answer: 1, explanation: "An algorithm is a step-by-step set of instructions to solve a problem." },
-      { question: "What does 'bug' mean in programming?", options: ["A feature of a program", "An insect in the computer", "An error in a program", "A type of loop"], answer: 2, explanation: "A bug is an error or flaw in a program that causes unexpected behavior." },
-      { question: "Which data structure works on the LIFO principle?", options: ["Queue", "Stack", "Array", "Linked List"], answer: 1, explanation: "Stack works on Last In First Out (LIFO) principle." },
-      { question: "What is the full meaning of URL?", options: ["Uniform Resource Locator", "Universal Research Link", "Unified Resource Language", "Uniform Retrieval Location"], answer: 0, explanation: "URL stands for Uniform Resource Locator — the address of a webpage." },
-      { question: "Which of these is an input device?", options: ["Monitor", "Printer", "Keyboard", "Speaker"], answer: 2, explanation: "A keyboard is an input device used to enter data into a computer." },
-      { question: "What is the time complexity of Binary Search?", options: ["O(n)", "O(n²)", "O(log n)", "O(1)"], answer: 2, explanation: "Binary Search has a time complexity of O(log n)." }
-    ]
-  },
-  {
-    name: "Programming Fundamentals",
-    icon: "💻",
-    questions: [
-      { question: "Which symbol is used for comments in Python?", options: ["//", "/*", "#", "--"], answer: 2, explanation: "Python uses the # symbol for single-line comments." },
-      { question: "What is a variable?", options: ["A fixed value", "A storage location with a name", "A type of loop", "A function"], answer: 1, explanation: "A variable is a named storage location that holds a value." },
-      { question: "Which of these is a loop in programming?", options: ["if-else", "try-catch", "for loop", "switch"], answer: 2, explanation: "A for loop is used to repeat a block of code a number of times." },
-      { question: "What does 'int' mean in most programming languages?", options: ["Internal", "Integer", "Interface", "Interval"], answer: 1, explanation: "'int' represents an Integer — a whole number data type." },
-      { question: "What is the output of: print(2 + 3 * 4) in Python?", options: ["20", "14", "24", "10"], answer: 1, explanation: "Due to operator precedence, multiplication happens first: 3*4=12, then 2+12=14." },
-      { question: "What is a function in programming?", options: ["A type of variable", "A reusable block of code", "A data type", "A loop"], answer: 1, explanation: "A function is a reusable block of code that performs a specific task." },
-      { question: "Which of these is NOT a data type?", options: ["Integer", "Boolean", "String", "Compiler"], answer: 3, explanation: "A Compiler is a tool that translates code, not a data type." },
-      { question: "What does IDE stand for?", options: ["Integrated Development Environment", "Internal Design Editor", "Integrated Debug Engine", "Interface Design Environment"], answer: 0, explanation: "IDE stands for Integrated Development Environment — a tool for writing code." },
-      { question: "What is recursion?", options: ["A type of variable", "A function that calls itself", "A sorting algorithm", "A data structure"], answer: 1, explanation: "Recursion is when a function calls itself to solve a smaller version of the same problem." },
-      { question: "What symbol is used for assignment in most languages?", options: ["==", "=>", "=", ":="], answer: 2, explanation: "The = symbol is used to assign a value to a variable." }
-    ]
-  },
-  {
-    name: "Data Science",
-    icon: "📊",
-    questions: [
-      { question: "What is Data Science?", options: ["Designing websites", "Extracting insights from data", "Building mobile apps", "Managing databases only"], answer: 1, explanation: "Data Science involves extracting meaningful insights from large amounts of data." },
-      { question: "Which language is most popular in Data Science?", options: ["Java", "C++", "Python", "PHP"], answer: 2, explanation: "Python is the most widely used language in Data Science due to its simplicity and libraries." },
-      { question: "What is a dataset?", options: ["A type of algorithm", "A collection of related data", "A programming language", "A database software"], answer: 1, explanation: "A dataset is a structured collection of related data used for analysis." },
-      { question: "What does CSV stand for?", options: ["Comma Separated Values", "Computer Stored Variables", "Central Storage Values", "Coded String Variables"], answer: 0, explanation: "CSV stands for Comma Separated Values — a common format for storing tabular data." },
-      { question: "Which of these is a Data Science library in Python?", options: ["React", "Pandas", "Laravel", "Bootstrap"], answer: 1, explanation: "Pandas is a powerful Python library used for data manipulation and analysis." },
-      { question: "What is machine learning?", options: ["Teaching humans to use machines", "A computer learning from data without being explicitly programmed", "Programming a robot", "Building computer hardware"], answer: 1, explanation: "Machine learning is a subset of AI where computers learn patterns from data." },
-      { question: "What is data cleaning?", options: ["Deleting all data", "Removing or fixing incorrect data", "Encrypting data", "Compressing data"], answer: 1, explanation: "Data cleaning involves identifying and correcting errors or inconsistencies in data." },
-      { question: "What type of chart is best for showing trends over time?", options: ["Pie chart", "Bar chart", "Line chart", "Scatter plot"], answer: 2, explanation: "Line charts are best for showing how values change over time." },
-      { question: "What is the mean of: 2, 4, 6, 8, 10?", options: ["5", "6", "7", "8"], answer: 1, explanation: "Mean = (2+4+6+8+10)/5 = 30/5 = 6." },
-      { question: "What does AI stand for?", options: ["Automated Interface", "Artificial Intelligence", "Advanced Internet", "Automatic Input"], answer: 1, explanation: "AI stands for Artificial Intelligence — machines simulating human intelligence." }
-    ]
-  },
-  {
-    name: "Software Engineering",
-    icon: "🔧",
-    questions: [
-      { question: "What is Software Engineering?", options: ["Building computer hardware", "Systematic approach to software development", "Designing user interfaces only", "Writing code without planning"], answer: 1, explanation: "Software Engineering is the systematic application of engineering principles to software development." },
-      { question: "What does SDLC stand for?", options: ["Software Design and Logic Cycle", "System Development Life Cycle", "Software Development Life Cycle", "Systematic Design and Launch Cycle"], answer: 2, explanation: "SDLC stands for Software Development Life Cycle — the process of planning, creating and testing software." },
-      { question: "Which SDLC model is shaped like a V?", options: ["Agile", "Waterfall", "V-Model", "Spiral"], answer: 2, explanation: "The V-Model is an SDLC model where development and testing phases run in parallel." },
-      { question: "What is a software requirement?", options: ["A bug in the system", "What the software must do", "The programming language used", "The database structure"], answer: 1, explanation: "A software requirement describes what a system must do or what quality it must have." },
-      { question: "What is Agile methodology?", options: ["A waterfall approach to development", "An iterative and flexible development approach", "A hardware design method", "A database management system"], answer: 1, explanation: "Agile is an iterative development methodology that focuses on flexibility and customer feedback." },
-      { question: "What is a software prototype?", options: ["The final version of software", "An early sample of the software", "A software bug", "A type of database"], answer: 1, explanation: "A prototype is an early model of software built to test concepts and get feedback." },
-      { question: "What does UML stand for?", options: ["Unified Modeling Language", "Universal Machine Language", "Unique Method Logic", "Unified Memory Layout"], answer: 0, explanation: "UML stands for Unified Modeling Language — used to visually represent software design." },
-      { question: "What is version control?", options: ["Controlling software prices", "Managing changes to code over time", "Testing software versions", "Updating software automatically"], answer: 1, explanation: "Version control tracks and manages changes to code, allowing teams to collaborate." },
-      { question: "What is Git?", options: ["A programming language", "A version control system", "A database", "An operating system"], answer: 1, explanation: "Git is a distributed version control system used to track changes in source code." },
-      { question: "What is software testing?", options: ["Writing code", "Evaluating software to find bugs", "Designing the UI", "Deploying software"], answer: 1, explanation: "Software testing is the process of evaluating software to find defects and ensure quality." }
-    ]
-  },
-  {
-    name: "Cyber Security",
-    icon: "🔐",
-    questions: [
-      { question: "What is Cyber Security?", options: ["Building websites", "Protecting systems and networks from digital attacks", "Designing computer hardware", "Managing databases"], answer: 1, explanation: "Cyber Security involves protecting computer systems and networks from digital attacks and unauthorized access." },
-      { question: "What is a firewall?", options: ["A physical wall in a data center", "Software or hardware that monitors network traffic", "A type of virus", "An encryption method"], answer: 1, explanation: "A firewall monitors and controls incoming and outgoing network traffic based on security rules." },
-      { question: "What is phishing?", options: ["A type of encryption", "Tricking users into revealing sensitive information", "A network protocol", "A firewall technique"], answer: 1, explanation: "Phishing is a cyberattack where attackers trick users into revealing passwords or personal information." },
-      { question: "What does VPN stand for?", options: ["Virtual Private Network", "Very Protected Node", "Verified Public Network", "Virtual Protocol Number"], answer: 0, explanation: "VPN stands for Virtual Private Network — it encrypts your internet connection for privacy." },
-      { question: "What is malware?", options: ["Good software", "Malicious software designed to harm systems", "A network protocol", "A security tool"], answer: 1, explanation: "Malware is malicious software designed to disrupt, damage or gain unauthorized access to systems." },
-      { question: "What is encryption?", options: ["Deleting data", "Converting data into a coded format", "Copying data", "Compressing data"], answer: 1, explanation: "Encryption converts data into a coded format that can only be read with the correct key." },
-      { question: "What is a strong password?", options: ["Your name and birthday", "123456", "A mix of letters, numbers and symbols", "Your phone number"], answer: 2, explanation: "A strong password uses a mix of uppercase, lowercase, numbers and special characters." },
-      { question: "What is two-factor authentication?", options: ["Using two passwords", "Verifying identity using two different methods", "Having two user accounts", "Logging in twice"], answer: 1, explanation: "Two-factor authentication adds an extra layer of security by requiring two forms of verification." },
-      { question: "What is a DDoS attack?", options: ["A type of encryption", "Overwhelming a server with traffic to crash it", "Stealing passwords", "Installing malware"], answer: 1, explanation: "A DDoS (Distributed Denial of Service) attack floods a server with traffic to make it unavailable." },
-      { question: "What does HTTPS stand for?", options: ["HyperText Transfer Protocol Secure", "High Transfer Technology Protocol System", "Hybrid Text Transfer Protocol Standard", "HyperText Technology Protocol Service"], answer: 0, explanation: "HTTPS stands for HyperText Transfer Protocol Secure — it encrypts data between browser and server." }
-    ]
-  }
-];
+ var categories = [
+    {
+      name: "Computer Science",
+      icon: "🖥️",
+      questions: [
+        { question: "What does CPU stand for?", options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Core Processing Unit"], answer: 0, explanation: "CPU stands for Central Processing Unit — the brain of the computer." },
+        { question: "Which of these is NOT a programming language?", options: ["Python", "Java", "HTML", "Microsoft Word"], answer: 3, explanation: "Microsoft Word is a word processor, not a programming language." },
+        { question: "What does RAM stand for?", options: ["Read Access Memory", "Random Access Memory", "Rapid Action Memory", "Read And Modify"], answer: 1, explanation: "RAM stands for Random Access Memory — temporary storage for running programs." },
+        { question: "Which number system does a computer use internally?", options: ["Decimal", "Octal", "Binary", "Hexadecimal"], answer: 2, explanation: "Computers use the Binary number system (0s and 1s) internally." },
+        { question: "What is an algorithm?", options: ["A type of computer virus", "A step-by-step procedure to solve a problem", "A programming language", "A type of database"], answer: 1, explanation: "An algorithm is a step-by-step set of instructions to solve a problem." },
+        { question: "What does 'bug' mean in programming?", options: ["A feature of a program", "An insect in the computer", "An error in a program", "A type of loop"], answer: 2, explanation: "A bug is an error or flaw in a program that causes unexpected behavior." },
+        { question: "Which data structure works on the LIFO principle?", options: ["Queue", "Stack", "Array", "Linked List"], answer: 1, explanation: "Stack works on Last In First Out (LIFO) principle." },
+        { question: "What is the full meaning of URL?", options: ["Uniform Resource Locator", "Universal Research Link", "Unified Resource Language", "Uniform Retrieval Location"], answer: 0, explanation: "URL stands for Uniform Resource Locator — the address of a webpage." },
+        { question: "Which of these is an input device?", options: ["Monitor", "Printer", "Keyboard", "Speaker"], answer: 2, explanation: "A keyboard is an input device used to enter data into a computer." },
+        { question: "What is the time complexity of Binary Search?", options: ["O(n)", "O(n²)", "O(log n)", "O(1)"], answer: 2, explanation: "Binary Search has a time complexity of O(log n)." }
+      ]
+    },
+    {
+      name: "Programming Fundamentals",
+      icon: "💻",
+      questions: [
+        { question: "Which symbol is used for comments in Python?", options: ["//", "/*", "#", "--"], answer: 2, explanation: "Python uses the # symbol for single-line comments." },
+        { question: "What is a variable?", options: ["A fixed value", "A storage location with a name", "A type of loop", "A function"], answer: 1, explanation: "A variable is a named storage location that holds a value." },
+        { question: "Which of these is a loop in programming?", options: ["if-else", "try-catch", "for loop", "switch"], answer: 2, explanation: "A for loop is used to repeat a block of code a number of times." },
+        { question: "What does 'int' mean in most programming languages?", options: ["Internal", "Integer", "Interface", "Interval"], answer: 1, explanation: "'int' represents an Integer — a whole number data type." },
+        { question: "What is the output of: print(2 + 3 * 4) in Python?", options: ["20", "14", "24", "10"], answer: 1, explanation: "Due to operator precedence, multiplication happens first: 3*4=12, then 2+12=14." },
+        { question: "What is a function in programming?", options: ["A type of variable", "A reusable block of code", "A data type", "A loop"], answer: 1, explanation: "A function is a reusable block of code that performs a specific task." },
+        { question: "Which of these is NOT a data type?", options: ["Integer", "Boolean", "String", "Compiler"], answer: 3, explanation: "A Compiler is a tool that translates code, not a data type." },
+        { question: "What does IDE stand for?", options: ["Integrated Development Environment", "Internal Design Editor", "Integrated Debug Engine", "Interface Design Environment"], answer: 0, explanation: "IDE stands for Integrated Development Environment — a tool for writing code." },
+        { question: "What is recursion?", options: ["A type of variable", "A function that calls itself", "A sorting algorithm", "A data structure"], answer: 1, explanation: "Recursion is when a function calls itself to solve a smaller version of the same problem." },
+        { question: "What symbol is used for assignment in most languages?", options: ["==", "=>", "=", ":="], answer: 2, explanation: "The = symbol is used to assign a value to a variable." }
+      ]
+    },
+    {
+      name: "Data Science",
+      icon: "📊",
+      questions: [
+        { question: "What is Data Science?", options: ["Designing websites", "Extracting insights from data", "Building mobile apps", "Managing databases only"], answer: 1, explanation: "Data Science involves extracting meaningful insights from large amounts of data." },
+        { question: "Which language is most popular in Data Science?", options: ["Java", "C++", "Python", "PHP"], answer: 2, explanation: "Python is the most widely used language in Data Science due to its simplicity and libraries." },
+        { question: "What is a dataset?", options: ["A type of algorithm", "A collection of related data", "A programming language", "A database software"], answer: 1, explanation: "A dataset is a structured collection of related data used for analysis." },
+        { question: "What does CSV stand for?", options: ["Comma Separated Values", "Computer Stored Variables", "Central Storage Values", "Coded String Variables"], answer: 0, explanation: "CSV stands for Comma Separated Values — a common format for storing tabular data." },
+        { question: "Which of these is a Data Science library in Python?", options: ["React", "Pandas", "Laravel", "Bootstrap"], answer: 1, explanation: "Pandas is a powerful Python library used for data manipulation and analysis." },
+        { question: "What is machine learning?", options: ["Teaching humans to use machines", "A computer learning from data without being explicitly programmed", "Programming a robot", "Building computer hardware"], answer: 1, explanation: "Machine learning is a subset of AI where computers learn patterns from data." },
+        { question: "What is data cleaning?", options: ["Deleting all data", "Removing or fixing incorrect data", "Encrypting data", "Compressing data"], answer: 1, explanation: "Data cleaning involves identifying and correcting errors or inconsistencies in data." },
+        { question: "What type of chart is best for showing trends over time?", options: ["Pie chart", "Bar chart", "Line chart", "Scatter plot"], answer: 2, explanation: "Line charts are best for showing how values change over time." },
+        { question: "What is the mean of: 2, 4, 6, 8, 10?", options: ["5", "6", "7", "8"], answer: 1, explanation: "Mean = (2+4+6+8+10)/5 = 30/5 = 6." },
+        { question: "What does AI stand for?", options: ["Automated Interface", "Artificial Intelligence", "Advanced Internet", "Automatic Input"], answer: 1, explanation: "AI stands for Artificial Intelligence — machines simulating human intelligence." }
+      ]
+    },
+    {
+      name: "Software Engineering",
+      icon: "🔧",
+      questions: [
+        { question: "What is Software Engineering?", options: ["Building computer hardware", "Systematic approach to software development", "Designing user interfaces only", "Writing code without planning"], answer: 1, explanation: "Software Engineering is the systematic application of engineering principles to software development." },
+        { question: "What does SDLC stand for?", options: ["Software Design and Logic Cycle", "System Development Life Cycle", "Software Development Life Cycle", "Systematic Design and Launch Cycle"], answer: 2, explanation: "SDLC stands for Software Development Life Cycle — the process of planning, creating and testing software." },
+        { question: "Which SDLC model is shaped like a V?", options: ["Agile", "Waterfall", "V-Model", "Spiral"], answer: 2, explanation: "The V-Model is an SDLC model where development and testing phases run in parallel." },
+        { question: "What is a software requirement?", options: ["A bug in the system", "What the software must do", "The programming language used", "The database structure"], answer: 1, explanation: "A software requirement describes what a system must do or what quality it must have." },
+        { question: "What is Agile methodology?", options: ["A waterfall approach to development", "An iterative and flexible development approach", "A hardware design method", "A database management system"], answer: 1, explanation: "Agile is an iterative development methodology that focuses on flexibility and customer feedback." },
+        { question: "What is a software prototype?", options: ["The final version of software", "An early sample of the software", "A software bug", "A type of database"], answer: 1, explanation: "A prototype is an early model of software built to test concepts and get feedback." },
+        { question: "What does UML stand for?", options: ["Unified Modeling Language", "Universal Machine Language", "Unique Method Logic", "Unified Memory Layout"], answer: 0, explanation: "UML stands for Unified Modeling Language — used to visually represent software design." },
+        { question: "What is version control?", options: ["Controlling software prices", "Managing changes to code over time", "Testing software versions", "Updating software automatically"], answer: 1, explanation: "Version control tracks and manages changes to code, allowing teams to collaborate." },
+        { question: "What is Git?", options: ["A programming language", "A version control system", "A database", "An operating system"], answer: 1, explanation: "Git is a distributed version control system used to track changes in source code." },
+        { question: "What is software testing?", options: ["Writing code", "Evaluating software to find bugs", "Designing the UI", "Deploying software"], answer: 1, explanation: "Software testing is the process of evaluating software to find defects and ensure quality." }
+      ]
+    },
+    {
+      name: "Cyber Security",
+      icon: "🔐",
+      questions: [
+        { question: "What is Cyber Security?", options: ["Building websites", "Protecting systems and networks from digital attacks", "Designing computer hardware", "Managing databases"], answer: 1, explanation: "Cyber Security involves protecting computer systems and networks from digital attacks and unauthorized access." },
+        { question: "What is a firewall?", options: ["A physical wall in a data center", "Software or hardware that monitors network traffic", "A type of virus", "An encryption method"], answer: 1, explanation: "A firewall monitors and controls incoming and outgoing network traffic based on security rules." },
+        { question: "What is phishing?", options: ["A type of encryption", "Tricking users into revealing sensitive information", "A network protocol", "A firewall technique"], answer: 1, explanation: "Phishing is a cyberattack where attackers trick users into revealing passwords or personal information." },
+        { question: "What does VPN stand for?", options: ["Virtual Private Network", "Very Protected Node", "Verified Public Network", "Virtual Protocol Number"], answer: 0, explanation: "VPN stands for Virtual Private Network — it encrypts your internet connection for privacy." },
+        { question: "What is malware?", options: ["Good software", "Malicious software designed to harm systems", "A network protocol", "A security tool"], answer: 1, explanation: "Malware is malicious software designed to disrupt, damage or gain unauthorized access to systems." },
+        { question: "What is encryption?", options: ["Deleting data", "Converting data into a coded format", "Copying data", "Compressing data"], answer: 1, explanation: "Encryption converts data into a coded format that can only be read with the correct key." },
+        { question: "What is a strong password?", options: ["Your name and birthday", "123456", "A mix of letters, numbers and symbols", "Your phone number"], answer: 2, explanation: "A strong password uses a mix of uppercase, lowercase, numbers and special characters." },
+        { question: "What is two-factor authentication?", options: ["Using two passwords", "Verifying identity using two different methods", "Having two user accounts", "Logging in twice"], answer: 1, explanation: "Two-factor authentication adds an extra layer of security by requiring two forms of verification." },
+        { question: "What is a DDoS attack?", options: ["A type of encryption", "Overwhelming a server with traffic to crash it", "Stealing passwords", "Installing malware"], answer: 1, explanation: "A DDoS (Distributed Denial of Service) attack floods a server with traffic to make it unavailable." },
+        { question: "What does HTTPS stand for?", options: ["HyperText Transfer Protocol Secure", "High Transfer Technology Protocol System", "Hybrid Text Transfer Protocol Standard", "HyperText Technology Protocol Service"], answer: 0, explanation: "HTTPS stands for HyperText Transfer Protocol Secure — it encrypts data between browser and server." }
+      ]
+    }
+  ];
+
   // ═══════════════════════════════
   //  SETTINGS
   // ═══════════════════════════════
