@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizBox — Lecturer Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+    .tab-btn { flex: 1; padding: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; color: var(--muted); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { background: var(--accent); color: #0d0d14; border-color: var(--accent); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .quiz-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .quiz-item-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .quiz-item-name { font-family: 'Syne', sans-serif; font-weight: 700; flex: 1; }
+    .quiz-item-count { font-size: 0.78rem; color: var(--muted); }
+    .quiz-actions { display: flex; gap: 8px; }
+    .btn-enable { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem; transition: all 0.2s; }
+    .btn-enable.on { background: var(--green); color: #0d0d14; }
+    .btn-enable.off { background: var(--accent2); color: #fff; }
+    .btn-delete { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--accent2); background: transparent; color: var(--accent2); cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+    .status-badge { font-size: 0.72rem; padding: 4px 10px; border-radius: 99px; font-weight: 700; }
+    .status-badge.enabled { background: rgba(74,222,128,0.15); color: var(--green); }
+    .status-badge.disabled { background: rgba(255,107,107,0.15); color: var(--accent2); }
+    .q-builder { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .q-builder-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--accent); }
+    .remove-q-btn { background: transparent; border: none; color: var(--accent2); cursor: pointer; font-size: 1.1rem; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .correct-select { margin-top: 8px; width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px; padding: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; }
+    .lb-full-matric { font-family: 'Syne', sans-serif; font-size: 0.75rem; color: var(--accent); }
+    .add-q-btn { width: 100%; padding: 12px; background: transparent; border: 1.5px dashed var(--accent); border-radius: 10px; color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-bottom: 16px; transition: all 0.2s; }
+    .add-q-btn:hover { background: rgba(245,197,66,0.06); }
+    .timer-input { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .timer-input label { font-size: 0.8rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    .timer-input input { width: 80px; text-align: center; }
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+    .empty-state div:first-child { font-size: 2.5rem; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="logo">Quiz<span>Box</span> <span style="font-size:1rem; color:var(--muted);">Admin</span></div>
+    <div class="subtitle">Lecturer Dashboard</div>
+  </div>
+
+  <!-- LOGIN SCREEN -->
+  <div id="admin-login" class="screen active">
+    <div class="card">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">Lecturer Access</div>
+      <div class="card-desc">Enter your admin password to continue.</div>
+      <div class="form-group">
+        <label class="form-label">Admin Password</label>
+        <input class="form-input" id="admin-password" type="password" placeholder="Enter password" />
+        <div class="form-error" id="err-password">Incorrect password. Try again.</div>
+      </div>
+      <button class="btn-primary" onclick="adminLogin()">Login →</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="admin-dashboard" class="screen">
+    <div class="card">
+      <div class="admin-tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-quizzes')">📋 Quizzes</button>
+        <button class="tab-btn" onclick="switchTab('tab-create')">➕ Create</button>
+        <button class="tab-btn" onclick="switchTab('tab-leaderboard')">🏆 Scores</button>
+      </div>
+
+      <!-- TAB: QUIZZES -->
+      <div id="tab-quizzes" class="tab-content active">
+        <div id="quiz-list"><div class="empty-state"><div>📋</div><div>No quizzes yet. Create one!</div></div></div>
+      </div>
+
+      <!-- TAB: CREATE QUIZ -->
+      <div id="tab-create" class="tab-content">
+        <div class="form-group">
+          <label class="form-label">Quiz Name</label>
+          <input class="form-input" id="new-quiz-name" type="text" placeholder="e.g. Computer Science Quiz 1" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category Icon (emoji)</label>
+          <input class="form-input" id="new-quiz-icon" type="text" placeholder="e.g. 🖥️" maxlength="2" style="width:80px;" />
+        </div>
+        <div class="timer-input">
+          <label class="form-label">Timer (seconds)</label>
+          <input class="form-input" id="new-quiz-timer" type="number" value="300" min="60" max="3600" />
+        </div>
+
+        <div id="questions-builder"></div>
+        <button class="add-q-btn" onclick="addQuestion()">+ Add Question</button>
+
+        <div class="form-error" id="err-create" style="margin-bottom:12px;"></div>
+        <button class="btn-primary" onclick="saveQuiz()">Save & Publish Quiz 🚀</button>
+      </div>
+
+      <!-- TAB: LEADERBOARD -->
+      <div id="tab-leaderboard" class="tab-content">
+        <div id="admin-leaderboard-list"><div class="empty-state"><div>🏆</div><div>No scores yet.</div></div></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+var SUPABASE_URL = 'https://gszdnwtlltzrrdcbnupb.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzemRud3RsbHR6cnJkY2JudXBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwNjQ3MjMsImV4cCI6MjA5NDY0MDcyM30.wicKtPGy73STyHQeWo1PVpuwcqvEzVbJX_6TatXlrjs';
+var ADMIN_PASSWORD = 'quizbox2024';
+var questionCount = 0;
+
+function supabaseRequest(method, table, data, filters) {
+  var url = SUPABASE_URL + '/rest/v1/' + table;
+  if (filters) url += '?' + filters;
+  return fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': method === 'POST' ? 'return=representation' : (method === 'PATCH' ? 'return=representation' : '')
+    },
+    body: data ? JSON.stringify(data) : undefined
+  }).then(function(r) { return r.json(); });
+}
+
+function showScreen(id) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) { screens[i].classList.remove('active'); }
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function adminLogin() {
+  var pw = document.getElementById('admin-password').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('err-password').classList.remove('show');
+    showScreen('admin-dashboard');
+    loadQuizzes();
+    loadAdminLeaderboard();
+  } else {
+    document.getElementById('err-password').classList.add('show');
+  }
+}
+
+function switchTab(tabId) {
+  var tabs = document.querySelectorAll('.tab-content');
+  for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove('active'); }
+  document.getElementById(tabId).classList.add('active');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); }
+  event.target.classList.add('active');
+  if (tabId === 'tab-leaderboard') loadAdminLeaderboard();
+  if (tabId === 'tab-quizzes') loadQuizzes();
+}
+
+// ── LOAD QUIZZES ──
+function loadQuizzes() {
+  supabaseRequest('GET', 'quizzes', null, 'order=created_at.desc')
+    .then(function(data) {
+      var local = getLocalQuizzes();
+      var all = (data || []).concat(local);
+      renderQuizList(all);
+    })
+    .catch(function() {
+      renderQuizList(getLocalQuizzes());
+    });
+}
+
+function renderQuizList(quizzes) {
+  var el = document.getElementById('quiz-list');
+  if (!quizzes || quizzes.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div>📋</div><div>No quizzes yet. Create one!</div></div>';
+    return;
+  }
+  el.innerHTML = '';
+  quizzes.forEach(function(quiz) {
+    var questions = JSON.parse(quiz.questions || '[]');
+    var item = document.createElement('div');
+    item.className = 'quiz-item';
+    item.innerHTML =
+      '<div class="quiz-item-header">' +
+        '<span style="font-size:1.4rem;">' + (quiz.icon || '📝') + '</span>' +
+        '<span class="quiz-item-name">' + quiz.name + '</span>' +
+        '<span class="status-badge ' + (quiz.enabled ? 'enabled' : 'disabled') + '">' + (quiz.enabled ? 'Live' : 'Hidden') + '</span>' +
+      '</div>' +
+      '<div style="font-size:0.8rem; color:var(--muted); margin-bottom:12px;">' + questions.length + ' questions · ' + (quiz.timer || 300) + 's timer</div>' +
+      '<div class="quiz-actions">' +
+        '<button class="btn-enable ' + (quiz.enabled ? 'on' : 'off') + '" onclick="toggleQuiz(\'' + quiz.id + '\', ' + quiz.enabled + ')">' +
+          (quiz.enabled ? '🟢 Disable' : '🔴 Enable') +
+        '</button>' +
+        '<button class="btn-delete" onclick="deleteQuiz(\'' + quiz.id + '\')">🗑️ Delete</button>' +
+      '</div>';
+    el.appendChild(item);
+  });
+}
+
+function toggleQuiz(id, currentState) {
+  if (id.toString().startsWith('local_')) {
+    toggleLocalQuiz(id, currentState);
+    return;
+  }
+  supabaseRequest('PATCH', 'quizzes?id=eq.' + id, { enabled: !currentState })
+    .then(function() { loadQuizzes(); });
+}
+
+function deleteQuiz(id) {
+  if (confirm('Delete this quiz? This cannot be undone.')) {
+    if (id.toString().startsWith('local_')) {
+      deleteLocalQuiz(id);
+      return;
+    }
+    supabaseRequest('DELETE', 'quizzes?id=eq.' + id)
+      .then(function() { loadQuizzes(); });
+  }
+}
+
+// ── CREATE QUIZ ──
+function addQuestion() {
+  questionCount++;
+  var builder = document.getElementById('questions-builder');
+  var div = document.createElement('div');
+  div.className = 'q-builder';
+  div.id = 'q-' + questionCount;
+  div.innerHTML =
+    '<div class="q-builder-header">' +
+      'Question ' + questionCount +
+      '<button class="remove-q-btn" onclick="removeQuestion(' + questionCount + ')">✕</button>' +
+    '</div>' +
+    '<input class="form-input" id="q-text-' + questionCount + '" type="text" placeholder="Enter question..." style="margin-bottom:8px;" />' +
+    '<div class="options-grid">' +
+      '<input class="form-input" id="q-opt-' + questionCount + '-0" type="text" placeholder="Option A" />' +
+      '<input class="form-input" id="q-opt-' + questionCount + '-1" type="text" placeholder="Option B" />' +
+      '<input class="form-input" id="q-opt-' + questionCount + '-2" type="text" placeholder="Option C" />' +
+      '<input class="form-input" id="q-opt-' + questionCount + '-3" type="text" placeholder="Option D" />' +
+    '</div>' +
+    '<select class="correct-select" id="q-answer-' + questionCount + '">' +
+      '<option value="0">✅ Correct Answer: Option A</option>' +
+      '<option value="1">✅ Correct Answer: Option B</option>' +
+      '<option value="2">✅ Correct Answer: Option C</option>' +
+      '<option value="3">✅ Correct Answer: Option D</option>' +
+    '</select>' +
+    '<input class="form-input" id="q-exp-' + questionCount + '" type="text" placeholder="Explanation (optional)" style="margin-top:8px;" />';
+  builder.appendChild(div);
+}
+
+function removeQuestion(num) {
+  var el = document.getElementById('q-' + num);
+  if (el) el.remove();
+}
+
+function saveQuiz() {
+  var name = document.getElementById('new-quiz-name').value.trim();
+  var icon = document.getElementById('new-quiz-icon').value.trim() || '📝';
+  var timer = parseInt(document.getElementById('new-quiz-timer').value) || 300;
+  var errEl = document.getElementById('err-create');
+
+  if (!name) { errEl.textContent = 'Please enter a quiz name.'; errEl.classList.add('show'); return; }
+
+  var questions = [];
+  var qDivs = document.querySelectorAll('.q-builder');
+
+  if (qDivs.length === 0) { errEl.textContent = 'Please add at least one question.'; errEl.classList.add('show'); return; }
+
+  for (var i = 0; i < qDivs.length; i++) {
+    var qId = qDivs[i].id.replace('q-', '');
+    var qText = document.getElementById('q-text-' + qId).value.trim();
+    var opts = [
+      document.getElementById('q-opt-' + qId + '-0').value.trim(),
+      document.getElementById('q-opt-' + qId + '-1').value.trim(),
+      document.getElementById('q-opt-' + qId + '-2').value.trim(),
+      document.getElementById('q-opt-' + qId + '-3').value.trim()
+    ];
+    var answer = parseInt(document.getElementById('q-answer-' + qId).value);
+    var explanation = document.getElementById('q-exp-' + qId).value.trim();
+
+    if (!qText || !opts[0] || !opts[1]) {
+      errEl.textContent = 'Please fill in all question fields.'; errEl.classList.add('show'); return;
+    }
+
+    questions.push({ question: qText, options: opts, answer: answer, explanation: explanation });
+  }
+
+  errEl.classList.remove('show');
+
+  supabaseRequest('POST', 'quizzes', {
+    name: name,
+    icon: icon,
+    timer: timer,
+    questions: JSON.stringify(questions),
+    enabled: false,
+    created_at: new Date().toISOString()
+  }).then(function() {
+    saveQuizLocally(name, icon, timer, questions);
+    alert('Quiz saved! Go to the Quizzes tab to enable it for students.');
+    document.getElementById('new-quiz-name').value = '';
+    document.getElementById('new-quiz-icon').value = '';
+    document.getElementById('new-quiz-timer').value = '300';
+    document.getElementById('questions-builder').innerHTML = '';
+    questionCount = 0;
+    switchTab('tab-quizzes');
+    loadQuizzes();
+}).catch(function() {
+    saveQuizLocally(name, icon, timer, questions);
+    alert('Quiz saved locally! Go to the Quizzes tab to enable it.');
+    document.getElementById('new-quiz-name').value = '';
+    document.getElementById('new-quiz-icon').value = '';
+    document.getElementById('new-quiz-timer').value = '300';
+    document.getElementById('questions-builder').innerHTML = '';
+    questionCount = 0;
+    switchTab('tab-quizzes');
+    loadQuizzes();
+});
+}
+
+// ── ADMIN LEADERBOARD (full matric) ──
+function loadAdminLeaderboard() {
+  supabaseRequest('GET', 'leaderboard', null, 'order=score.desc&limit=50')
+    .then(function(data) { renderAdminLeaderboard(data || []); })
+    .catch(function() { renderAdminLeaderboard([]); });
+}
+
+function renderAdminLeaderboard(board) {
+  var el = document.getElementById('admin-leaderboard-list');
+  if (!board || board.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div>🏆</div><div>No scores yet.</div></div>';
+    return;
+  }
+  el.innerHTML = '';
+  var medals = ['🥇', '🥈', '🥉'];
+  board.forEach(function(entry, i) {
+    var item = document.createElement('div');
+    item.className = 'leaderboard-item';
+    var rank = i < 3 ? medals[i] : '#' + (i+1);
+    item.innerHTML =
+      '<div class="lb-rank">' + rank + '</div>' +
+      '<div class="lb-info">' +
+        '<div class="lb-name">' + entry.name + '</div>' +
+        '<div class="lb-meta">' + entry.dept + '</div>' +
+        '<div class="lb-full-matric">' + entry.matric + '</div>' +
+      '</div>' +
+      '<div class="lb-score">' + entry.score + '/' + entry.total + '</div>';
+    el.appendChild(item);
+  });
+}
+function saveQuizLocally(name, icon, timer, questions) {
+  try {
+    var quizzes = getLocalQuizzes();
+    quizzes.push({
+      id: 'local_' + Date.now(),
+      name: name,
+      icon: icon || '📝',
+      timer: timer,
+      questions: JSON.stringify(questions),
+      enabled: false,
+      created_at: new Date().toISOString(),
+      isLocal: true
+    });
+    localStorage.setItem('admin_quizzes', JSON.stringify(quizzes));
+  } catch(e) {}
+}
+
+function getLocalQuizzes() {
+  try {
+    var data = localStorage.getItem('admin_quizzes');
+    return data ? JSON.parse(data) : [];
+  } catch(e) { return []; }
+}
+
+function toggleLocalQuiz(id, currentState) {
+  try {
+    var quizzes = getLocalQuizzes();
+    quizzes = quizzes.map(function(q) {
+      if (q.id === id) { q.enabled = !currentState; }
+      return q;
+    });
+    localStorage.setItem('admin_quizzes', JSON.stringify(quizzes));
+    loadQuizzes();
+  } catch(e) {}
+}
+
+function deleteLocalQuiz(id) {
+  try {
+    var quizzes = getLocalQuizzes().filter(function(q) { return q.id !== id; });
+    localStorage.setItem('admin_quizzes', JSON.stringify(quizzes));
+    loadQuizzes();
+  } catch(e) {}
+}
+</script>
+</body>
+</html>
